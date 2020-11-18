@@ -50,6 +50,7 @@ CREATE TABLE `status_record` (
   `runtime` int(11) DEFAULT 0,
   `minute_time` bigint(11) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `instance` (`instance_id`)
+  KEY `instance` (`instance_id`),
+  KEY `min_time` (`min_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='历史监控信息记录表';
 

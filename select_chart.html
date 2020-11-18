@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="60">
+    <title>第一个 ECharts 实例</title>
+    <!-- 引入 echarts.js -->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost/mysql_grafana/select_chart.php',
+        data: {},
+        dataType: 'json',
+        success: function (res) {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: '查询数变动趋势图',
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: 100,
+                },
+                grid: {
+                    top: '10%',
+                    left: '3%',
+                    right: '3%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    show:false,
+                    feature: {
+                        saveAsImage: {},
+                        //dataView:{},
+                        magicType:{
+                            type: ['line', 'bar']
+                        }
+                    }
+                },
+
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: res.x_list,
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '查询数',
+                        data: res.series_list,
+                        type: 'line',
+                        areaStyle: {},
+                        // itemStyle: {
+                        //     normal: {
+                        //         label: {
+                        //             show: true, //开启显示
+                        //             position: 'top', //在上方显示
+                        //             textStyle: { //数值样式
+                        //                 color: 'black',
+                        //                 fontSize: 16
+                        //             }
+                        //         }
+                        //     }
+                        // },
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        },
+        error: function (data) {
+            alert('服务错误')
+        },
+    });
+
+
+
+
+
+</script>
+</body>
+</html>
