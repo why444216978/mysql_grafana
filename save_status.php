@@ -46,10 +46,10 @@ foreach ($instanceList as $instance) {
         }
     }
 
-    $updateFields = array_merge($config['status_fields'], $config['variables_fields']);
-
+    //更新instance当前状态
+    $updateMap = array_merge($config['status_fields'], $config['variables_fields']);
     $updateSql = 'update instance_current_status set ';
-    foreach ($updateFields as $k => $v) {
+    foreach ($updateMap as $k => $v) {
         if ($k == 'version') {
             $updateSql .= ($v . '=\'' . $data[$k]) . '\',';
         } else {
@@ -60,19 +60,21 @@ foreach ($instanceList as $instance) {
     $updateSql .= 'where instance_id=' . $instance['id'];
     $result    = mysqli_query($con, $updateSql);
 
-    $insertSql = sprintf("insert into status_record values(null, %d, %d,%d,%d,%d,%d,%d,%d,'%s');",
-        $instance['id'],
-        $data['Max_used_connections'],
-        $data['Threads_connected'],
-        $data['Com_select'],
-        $data['Com_insert'],
-        $data['Com_update'],
-        $data['Com_delete'],
-        $data['Uptime'],
-        date('YmdHi')
-    );
+    //记录instance历史状态
+    $insertMap    = $config['status_fields'];
+    $insertFields[] = 'instance_id';
+    $insertValues[] = $instance['id'];
+    foreach ($insertMap as $k => $v) {
+        $insertValues[] = $data[$k];
+        $insertFields[] = $v;
+    }
+    $insertFields[] = 'minute_time';
+    $insertValues[] = date('YmdHi');
+
+    $insertSql = sprintf("insert into status_record(%s) values(%s);", implode(',', $insertFields), implode(',', $insertValues));
     $result = mysqli_query($con, $insertSql);
-    print_r($data) . "\n";
+    echo $insertSql . "\n";
+    var_dump($result);
 }
 
 mysqli_close($con);
