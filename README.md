@@ -12,13 +12,16 @@ wechat：AbleYu_
 
 #### 修改 config.php 中的 status 和 variables_fields 监控指标字段
 
+#### 配置增长字段进行分钟减法计算
+load_class.php 的 $diffFields 变量
+
 #### 插入监控实例（可多个）
 ```
 INSERT INTO `monitor`.`instance_info`(`id`, `host`, `port`, `user`, `password`, `monitor`, `send_mail`, `send_mail_to_list`) VALUES (1, '127.0.0.1', 3306, 'root', '123456', 1, 1, 'why@qq.com');
 ```
 
 #### 修改数据库连接
-db_conn.
+db_conn.php
 
 #### 配置ajax请求host
 config.js
