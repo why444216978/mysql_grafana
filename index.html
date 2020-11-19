@@ -34,7 +34,9 @@
 
 <div style="width: 100%;height: 100%;margin: 15px">
     <div id="form-div">
-        指标字段：<select id="select-div" onchange="change_field(this.value)"></select>
+        数据库实例：<select id="instance-div" onchange="change_instance(this.value)"></select>
+        <input id="instance" type="hidden" value="">
+        指标字段：<select id="fields-div" onchange="change_field(this.value)"></select>
         <input id="status_field" type="hidden" value="">
         时间：<input type="text" id="time-1" value="" name="start_time">
         - <input type="text" id="time-2" value="" name="end_time">&nbsp;
@@ -53,12 +55,24 @@
             data: {},
             dataType: 'json',
             success: function (res) {
-                len = res.length;
-                for (var i = 0; i < len; i++) {
+                var i = 0;
+                fields = res.status_fields;
+                len = fields.length;
+                for (i = 0; i < len; i++) {
                     if (i == 0) {
-                        $("#status_field").val(res[i])
+                        $("#status_field").val(fields[i])
                     }
-                    $("#select-div").append('<option class="select-item" value="' + res[i] + '">' + res[i] + '</option>');
+                    $("#fields-div").append('<option class="select-item" value="' + fields[i] + '">' + fields[i] + '</option>');
+
+                }
+
+                instances = res.instance_list;
+                len = instances.length;
+                for (i = 0; i < len; i++) {
+                    if (i == 0) {
+                        $("#instance").val(instances[i].id)
+                    }
+                    $("#instance-div").append('<option class="select-item" value="' + instances[i].id + '">' + instances[i].host + '</option>');
 
                 }
             },
@@ -99,6 +113,7 @@
             type: 'POST',
             url: host + uri,
             data: {
+                "instance": $("#instance").val(),
                 "type": $("#status_field").val(),
                 "start_time": $("input[name='start_time']").val(),
                 "end_time": $("input[name='end_time']").val(),
@@ -180,6 +195,10 @@
 
     function change_field(field) {
         $('#status_field').val(field)
+    }
+
+    function change_instance(field) {
+        $('#instance').val(field)
     }
 
     function timestampToTime(timestamp) {

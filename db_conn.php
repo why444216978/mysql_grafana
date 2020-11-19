@@ -2,8 +2,8 @@
 function &conn($host, $user, $password, $db = '')
 {
     static $dbList = [];
-    if (!empty($dbList[$db])) {
-        return $dbList[$db];
+    if (!empty($dbList[$host])) {
+        return $dbList[$host];
     }
 
     $con = mysqli_connect($host, $user, $password, $db);

@@ -35,6 +35,7 @@ $sqlList         = [
     "show global variables where variable_name regexp '" . implode('|', $variablesFields) . "'",
 ];
 
+$updateMap = array_merge($config['status_fields'], $config['variables_fields']);
 foreach ($instanceList as $instance) {
     $data = [];
 
@@ -47,7 +48,6 @@ foreach ($instanceList as $instance) {
     }
 
     //更新instance当前状态
-    $updateMap = array_merge($config['status_fields'], $config['variables_fields']);
     $updateSql = 'update instance_current_status set ';
     foreach ($updateMap as $k => $v) {
         if ($k == 'version') {
@@ -62,8 +62,8 @@ foreach ($instanceList as $instance) {
 
     //记录instance历史状态
     $insertMap    = $config['status_fields'];
-    $insertFields[] = 'instance_id';
-    $insertValues[] = $instance['id'];
+    $insertFields = ['instance_id'];
+    $insertValues = [$instance['id']];
     foreach ($insertMap as $k => $v) {
         $insertValues[] = $data[$k];
         $insertFields[] = $v;
@@ -73,6 +73,7 @@ foreach ($instanceList as $instance) {
 
     $insertSql = sprintf("insert into status_record(%s) values(%s);", implode(',', $insertFields), implode(',', $insertValues));
     $result = mysqli_query($con, $insertSql);
+    mysqli_close($instanceConn);
     echo $insertSql . "\n";
     var_dump($result);
 }
