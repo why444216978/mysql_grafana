@@ -4,7 +4,15 @@ require_once 'db_conn.php';
 
 class Load
 {
+    //需要计算的监控字段
+    protected $diffFields = [
+        'db_select',
+        'db_insert',
+        'db_update',
+        'db_delete',
+    ];
     protected $con;
+    protected $config;
 
     public function __construct()
     {
@@ -13,9 +21,29 @@ class Load
 
     public function getList($instanceId, $type, $startTime, $endTime)
     {
-        $data = $this->getAll($instanceId, $type, $startTime, $endTime);
-        $xList    = array_column($data, 'minute_time');
+        $isDiff = false;
+        if (in_array($type, $this->diffFields)) {
+            $isDiff    = true;
+            $startTime += 1;
+        }
+
+        $data  = $this->getAll($instanceId, $type, $startTime, $endTime);
+        $xList = array_column($data, 'minute_time');
+        if ($isDiff) {
+            array_pop($xList);
+        }
         $dataList = array_column($data, $type);
+
+        if ($isDiff) {
+            $ret = [];
+            foreach ($dataList as $k => $item) {
+                if ($k == 0) {
+                    continue;
+                }
+                $ret[] = $item - $dataList[$k - 1];
+            }
+            $dataList = $ret;
+        }
 
         $data = [
             'x_list'      => $xList,
@@ -31,7 +59,7 @@ class Load
         $startTime = intval(date('YmdHi', strtotime($startTime)));
         $endTime   = intval(date('YmdHi', strtotime($endTime)));
 
-        $sql = "select 'minute_time', {$type} from status_record where instance_id={$instanceId} and minute_time>={$startTime} and minute_time<={$endTime} order by minute_time asc";
+        $sql = "select minute_time, {$type} from status_record where instance_id={$instanceId} and minute_time>={$startTime} and minute_time<={$endTime} order by minute_time asc";
         return $this->query($sql);
     }
 

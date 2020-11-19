@@ -12,6 +12,17 @@ if(!$_POST['instance']){
     $instance = current($instanceList);
     $_POST['instance'] = $instance['id'];
 }
+
+
+$time = time();
+if(!$_POST['start_time']){
+    $_POST['start_time'] = date('YmdHi', $time - 3600 * 3);
+}
+
+if(!$_POST['end_time']){
+    $_POST['end_time'] = date('YmdHi', $time);
+}
+
 $data = $load->getList($_POST['instance'], $_POST['type'], $_POST['start_time'], $_POST['end_time']);
 echo json_encode($data);
 
