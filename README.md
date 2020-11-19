@@ -18,7 +18,10 @@ INSERT INTO `monitor`.`instance_info`(`id`, `host`, `port`, `user`, `password`, 
 ```
 
 #### 修改数据库连接
-涉及文件：save_status.php select_chart.php
+db_conn.
+
+#### 配置ajax请求host
+config.js
 
 #### 配置定时任务
 crontab -e
@@ -29,4 +32,4 @@ crontab -e
 #### 修改展示页面请求url为自己的
 
 #### 查看数据
-浏览器：http://localhost/mysql_grafana/select_chart.html
+浏览器：http://localhost/mysql_grafana/index.html
