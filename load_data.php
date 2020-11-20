@@ -17,10 +17,14 @@ if(!$_POST['instance']){
 $time = time();
 if(!$_POST['start_time']){
     $_POST['start_time'] = date('YmdHi', $time - 3600 * 3);
+}else{
+    $_POST['start_time'] = date('YmdHi', strtotime($_POST['start_time']));
 }
 
 if(!$_POST['end_time']){
     $_POST['end_time'] = date('YmdHi', $time);
+}{
+    $_POST['end_time'] = date('YmdHi', strtotime($_POST['end_time']));
 }
 
 $data = $load->getList($_POST['instance'], $_POST['type'], $_POST['start_time'], $_POST['end_time']);
