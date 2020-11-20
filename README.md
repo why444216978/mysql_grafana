@@ -1,9 +1,15 @@
 # mysql_grafana
 PS：代码还在完善中，后续会进行封装，以及部分可配置化。
 
+<br>
+有疑问随时联系本人
+<br>
 QQ群：909211071
-QQ：444216978
-wechat：AbleYu_
+<br>
+个人QQ：444216978
+<br>
+微信：AbleYu_
+<br>
 
 
 #### 数据库：monitor
