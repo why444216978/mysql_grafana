@@ -36,3 +36,7 @@ crontab -e
 
 #### 查看数据
 浏览器：http://localhost/mysql_grafana/index.html
+
+#### 监控图
+https://github.com/why444216978/mysql_grafana/blob/master/threads_connected.png
+https://github.com/why444216978/mysql_grafana/blob/master/select.png
