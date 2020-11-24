@@ -6,7 +6,6 @@ class Load
 {
     //需要计算的监控字段
     protected $diffFields = [
-        'threads_connected',
         'threads_created',
         'max_used_connections',
         'db_select',
