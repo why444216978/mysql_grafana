@@ -1,17 +1,11 @@
+<img src="https://github.com/why444216978/images/blob/master/qrcode.png" width="300" height="100" alt="图片描述文字"/>
+<br>
+
 # mysql_grafana
 PHP实现的MySQL监控组件，包含数据采集和web端可视化监控，可灵活扩展监控指标。
 <br>
 PS：代码还在完善中，后续会进行封装，以及部分可配置化。
-
-<br>
-有疑问随时联系本人
-<br>
-QQ群：909211071
-<br>
-个人QQ：444216978
-<br>
-微信：AbleYu_
-<br>
+<br><br>
 
 
 #### 数据库：monitor
